@@ -13,7 +13,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "tf-webapp-rg"
+  name     = "tf-webapp-rg-test"
   location = "Central US"
 }
 
