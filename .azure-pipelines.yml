@@ -9,20 +9,34 @@ variables:
   ARM_CLIENT_SECRET: $(ARM_CLIENTT)
   ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION)
   ARM_TENANT_ID: $(ARM_TENANT)
+  backendResourceGroup: 'tf-webapp-rg'
+  backendStorageAccount: 'tf1storageacc'
+  backendContainer: 'terraform-state'
+  backendKey: 'dev.terraform.tfstate'
 
 steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Free Trial(77845c72-6418-4086-8008-06c3bcb08b0f)'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az account show
+
 - task: TerraformInstaller@1
-  displayName: 'Install Terraform'
   inputs:
     terraformVersion: 'latest'
 
 - script: |
-    terraform init
-    terraform plan -out=tfplan
-    terraform apply -auto-approve tfplan
-  displayName: 'Run Terraform'
-  env:
-    ARM_CLIENT_ID: $(ARM_CLIENT)
-    ARM_CLIENT_SECRET: $(ARM_CLIENTT)
-    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION)
-    ARM_TENANT_ID: $(ARM_TENANT)
+    terraform init \
+      -backend-config="resource_group_name=$(backendResourceGroup)" \
+      -backend-config="storage_account_name=$(backendStorageAccount)" \
+      -backend-config="container_name=$(backendContainer)" \
+      -backend-config="key=$(backendKey)"
+  displayName: 'Terraform Init'
+
+- script: terraform plan
+  displayName: 'Terraform Plan'
+
+- script: terraform apply -auto-approve
+  displayName: 'Terraform Apply'
