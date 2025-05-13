@@ -1,5 +1,5 @@
 trigger:
-  - main  # or the branch name you want to trigger the pipeline
+  - main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -21,6 +21,7 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
+      echo "Azure CLI is authenticated"
       az account show
 
 - task: TerraformInstaller@1
@@ -34,9 +35,24 @@ steps:
       -backend-config="container_name=$(backendContainer)" \
       -backend-config="key=$(backendKey)"
   displayName: 'Terraform Init'
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT)
+    ARM_CLIENT_SECRET: $(ARM_CLIENTT)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION)
+    ARM_TENANT_ID: $(ARM_TENANT)
 
 - script: terraform plan
   displayName: 'Terraform Plan'
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT)
+    ARM_CLIENT_SECRET: $(ARM_CLIENTT)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION)
+    ARM_TENANT_ID: $(ARM_TENANT)
 
 - script: terraform apply -auto-approve
   displayName: 'Terraform Apply'
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT)
+    ARM_CLIENT_SECRET: $(ARM_CLIENTT)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION)
+    ARM_TENANT_ID: $(ARM_TENANT)
