@@ -11,7 +11,8 @@ variables:
   ARM_TENANT_ID: $(ARM_TENANT_ID)
 
 steps:
-- task: UseTerraform@0
+- task: TerraformInstaller@1
+  displayName: 'Install Terraform'
   inputs:
     terraformVersion: 'latest'
 
