@@ -9,3 +9,13 @@ variable "dotnet_version" {
   default     = "v8.0"
   description = "The version of .NET to use for the web app"
 }
+
+variable "client_id" {
+  description = "Azure Service Principal Client ID"
+  type        = string
+}
+
+variable "client_secret" {
+  description = "Azure Service Principal Secret"
+  type        = string
+}
