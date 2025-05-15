@@ -13,9 +13,16 @@ variable "dotnet_version" {
 variable "client_id" {
   description = "Azure Service Principal Client ID"
   type        = string
+  default = "a0f98fdd-d80b-40e0-87e4-7201dd689145"
 }
 
 variable "client_secret" {
   description = "Azure Service Principal Secret"
   type        = string
+  default = "LGh8Q~pSrU~KEawcPRC2FN.8sgYrQg.OYx9rKdpN"
 }
+
+variable "ARM_CLIENT_ID" {}
+variable "ARM_CLIENT_SECRET" {}
+variable "ARM_SUBSCRIPTION_ID" {}
+variable "ARM_TENANT_ID" {}
