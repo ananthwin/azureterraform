@@ -5,10 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  ARM_CLIENT_ID: $(ARM_CLIENT)
-  ARM_CLIENT_SECRET: $(ARM_CLIENTT)
-  ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION)
-  ARM_TENANT_ID: $(ARM_TENANT)
+  TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+  TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+  TF_VAR_ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+  TF_VAR_ARM_TENANT_ID: $(ARM_TENANT_ID)
   backendResourceGroup: 'tf-webapp-rg'
   backendStorageAccount: 'tf1storageacc'
   backendContainer: 'terraform-state'
@@ -36,23 +36,23 @@ steps:
       -backend-config="key=$(backendKey)"
   displayName: 'Terraform Init'
   env:
-    ARM_CLIENT_ID: $(ARM_CLIENT)
-    ARM_CLIENT_SECRET: $(ARM_CLIENTT)
-    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION)
-    ARM_TENANT_ID: $(ARM_TENANT)
+    TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    TF_VAR_ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    TF_VAR_ARM_TENANT_ID: $(ARM_TENANT_ID)
 
-- script: terraform plan
+- script: terraform plan -input=false
   displayName: 'Terraform Plan'
   env:
-    ARM_CLIENT_ID: $(ARM_CLIENT)
-    ARM_CLIENT_SECRET: $(ARM_CLIENTT)
-    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION)
-    ARM_TENANT_ID: $(ARM_TENANT)
+    TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    TF_VAR_ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    TF_VAR_ARM_TENANT_ID: $(ARM_TENANT_ID)
 
-- script: terraform apply -auto-approve
+- script: terraform apply -auto-approve -input=false
   displayName: 'Terraform Apply'
   env:
-    ARM_CLIENT_ID: $(ARM_CLIENT)
-    ARM_CLIENT_SECRET: $(ARM_CLIENTT)
-    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION)
-    ARM_TENANT_ID: $(ARM_TENANT)
+    TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    TF_VAR_ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    TF_VAR_ARM_TENANT_ID: $(ARM_TENANT_ID)
