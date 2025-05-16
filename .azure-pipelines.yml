@@ -5,10 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-  TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-  TF_VAR_ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-  TF_VAR_ARM_TENANT_ID: $(ARM_TENANT_ID)
+  ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+  ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+  ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+  ARM_TENANT_ID: $(ARM_TENANT_ID)
   backendResourceGroup: 'tf-webapp-rg'
   backendStorageAccount: 'tf1storageacc'
   backendContainer: 'terraform-state'
@@ -29,26 +29,30 @@ steps:
     terraformVersion: 'latest'
 
 - script: |
-    terraform init       -backend-config="resource_group_name=$(backendResourceGroup)"       -backend-config="storage_account_name=$(backendStorageAccount)"       -backend-config="container_name=$(backendContainer)"       -backend-config="key=$(backendKey)"
+    terraform init \
+      -backend-config="resource_group_name=$(backendResourceGroup)" \
+      -backend-config="storage_account_name=$(backendStorageAccount)" \
+      -backend-config="container_name=$(backendContainer)" \
+      -backend-config="key=$(backendKey)"
   displayName: 'Terraform Init'
   env:
-    TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-    TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-    TF_VAR_ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-    TF_VAR_ARM_TENANT_ID: $(ARM_TENANT_ID)
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
 
 - script: terraform plan -input=false
   displayName: 'Terraform Plan'
   env:
-    TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-    TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-    TF_VAR_ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-    TF_VAR_ARM_TENANT_ID: $(ARM_TENANT_ID)
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
 
 - script: terraform apply -auto-approve -input=false
   displayName: 'Terraform Apply'
   env:
-    TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-    TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-    TF_VAR_ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-    TF_VAR_ARM_TENANT_ID: $(ARM_TENANT_ID)
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
