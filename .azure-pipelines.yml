@@ -13,11 +13,6 @@ variables:
   backendStorageAccount: 'tf1storageacc'
   backendContainer: 'terraform-state'
   backendKey: 'dev.terraform.tfstate'
-  TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-  TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-  TF_VAR_ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-  TF_VAR_ARM_TENANT_ID: $(ARM_TENANT_ID)
-
 
 steps:
 - task: AzureCLI@2
@@ -34,11 +29,7 @@ steps:
     terraformVersion: 'latest'
 
 - script: |
-    terraform init \
-      -backend-config="resource_group_name=$(backendResourceGroup)" \
-      -backend-config="storage_account_name=$(backendStorageAccount)" \
-      -backend-config="container_name=$(backendContainer)" \
-      -backend-config="key=$(backendKey)"
+    terraform init       -backend-config="resource_group_name=$(backendResourceGroup)"       -backend-config="storage_account_name=$(backendStorageAccount)"       -backend-config="container_name=$(backendContainer)"       -backend-config="key=$(backendKey)"
   displayName: 'Terraform Init'
   env:
     TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
